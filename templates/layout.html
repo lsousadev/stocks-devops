@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Historical</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+        <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='favicon-32x32.png') }}"/>
+        {% block script %}
+        {% endblock %}
+    </head>
+    <body>
+        <ul class="nav border-bottom">
+            <li class="nav-item">
+                <a class="nav-link" href="/index">Historical Stats</a>
+            </li>
+            <li style="border-right: solid 1px lightgray;"></li>
+            <li class="nav-item">
+                {% block nav_item %}
+                {% endblock %}
+            </li>
+        </ul>
+        {% if message %}
+            <div class="alert alert-warning" role="alert" style="text-align: center;">{{ message }}</div>
+        {% endif %}
+        <main style="text-align: center; font-size: 12px; max-width: 98vw;">
+            {% block body %}
+            {% endblock %}
+        </main>
+    </body>
+</html>

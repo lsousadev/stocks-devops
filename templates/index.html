@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h2>Historical Stats</h2>
+    <div class="row">
+        {% for item in html_cheat %}
+            {% if item == "3" %}
+                <div class="w-100"></div>
+            {% endif %}
+                <div class="col">
+                    <form class="form-inline mb-3 mt-2" id="f1" action="/retrieve" method="post">
+                        <div>
+                            <input type="text" class="form-control ml-2 ticker" id="t1" placeholder="Ticker">
+                        </div>
+                        <div>
+                            <input type="date" class="form-control ml-2 start-date" id="ds1">
+                        </div>
+                        <div>
+                            <input type="date" class="form-control ml-2 end-date" id="de1">
+                        </div>
+                        <input class="btn btn-secondary ml-2" id="b1" type="submit" value="Retrieve">
+                    </form>
+
+                    <table class="table table-striped table-sm first">
+                        <thead>
+                            <tr>
+                                <th scope="col">Weekday</th>
+                                <th scope="col">Overnight Avg.</th>
+                                <th scope="col">Intraday Avg.</th>
+                                <th scope="col">Overall Avg.</th>
+                                <th scope="col">Green Overnights</th>
+                                <th scope="col">Green Intradays</th>
+                                <th scope="col">Green Overall</th>
+                                <th scope="col">Sample Size</th>
+                            </tr>
+                        </thead>
+                        <tbody class="first"></tbody>
+                    </table>
+
+                    <div class="hide-show">Show Daily Data</div>
+
+                    <div class="table-div">
+                        <table class="table table-striped table-sm second">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Weekday</th>
+                                    <th scope="col">Open</th>
+                                    <th scope="col">Close</th>
+                                    <th scope="col">Overnight</th>
+                                    <th scope="col">Intraday</th>
+                                    <th scope="col">Overall</th>
+                                </tr>
+                            </thead>
+                            <div class="table-div">
+                                <tbody class="second"></tbody>
+                            </div>
+                        </table>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    <hr>
+    <small>All data retrieved from <a href="https://finance.yahoo.com/">Yahoo Finance</a> via <a href="https://github.com/ranaroussi/yfinance/">yfinance API</a></small>
+    <br><small>Minimum sample of 1 for each weekday.</small>
+    <br><small>Start date inclusive. End date exclusive.</small>
+{% endblock %}
+
+{% block script %}
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
+{% endblock %}
