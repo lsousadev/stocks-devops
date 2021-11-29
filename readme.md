@@ -20,7 +20,7 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
 ## TO DO
 - clean up HTML/CSS/JS shenanigans
 - update screenshot
-- create basic CI/CD process
+- create Jenkinsfile
 
 ## CHANGELOG
 **v0.0.4** 11/28/2021
@@ -43,6 +43,7 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
 - docker build -t luk020/stocks-devops:latest .
 - docker run --rm -p 5000:5000 stocks-devops
 - docker push luk020/stocks-devops:latest
+- docker rmi $(docker images -f "dangling=true" -q)
 
 ## LINKS
 ### Making the app
@@ -55,6 +56,8 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
 - https://matduggan.com/are-dockerfiles-good-enough/
 - https://github.com/hadolint/hadolint
 - https://hub.docker.com/repository/docker/luk020/stocks-devops
+### Implementing CI/CD
+- https://github.com/jenkinsci/docker/blob/master/README.md
 ### Project link ideas
 - stocks-devops.lukenascimento.com
 - jenkins.lukenascimento.com
