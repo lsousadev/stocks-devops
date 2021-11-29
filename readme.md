@@ -19,10 +19,11 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
 
 ## TO DO
 - clean up HTML/CSS/JS shenanigans
+- update screenshot
 - create basic CI/CD process
 
 ## CHANGELOG
-**v0.0.3** 11/28/2021
+**v0.0.4** 11/28/2021
 - Changed directory architecture
 - Minor improvements
 
@@ -39,7 +40,7 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
     - Python backend doesn't retrieve/provide a start price for the first day of a request
 
 ## HELPER CMDS
-- docker build -t stocks-devops:latest .
+- docker build -t luk020/stocks-devops:latest .
 - docker run --rm -p 5000:5000 stocks-devops
 - docker push luk020/stocks-devops:latest
 
