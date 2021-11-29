@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /proj
+WORKDIR /app
 # copying script after installing requirements to avoid breaking caching functionality
 COPY requirements.txt .
 
@@ -17,10 +17,11 @@ RUN pip3 install -r requirements.txt
 RUN useradd -u 8888 devops
 USER devops
 
-COPY . .
+COPY ./app .
 
 EXPOSE 5000/tcp
 
+# https://docs.docker.com/engine/reference/builder/#understand-how-cmd-and-entrypoint-interact
 ENTRYPOINT [ "python3" ]
 
 CMD [ "stocks-devops.py" ]
