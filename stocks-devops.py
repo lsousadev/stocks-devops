@@ -78,3 +78,6 @@ def retrieve():
             "error": "Something went wrong. Days requested: {total_days_received} | Days processed: {final_check}"
         })
     return jsonify(response_data)
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0')
