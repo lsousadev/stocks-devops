@@ -1,15 +1,17 @@
 ## ABOUT THE APP
+
 App to compare stock performance based on the day of the week for any timeframe. It offers four windows to choose a stock ticker, start date, and end date. Once you hit retrieve, it generates a table with performance data based on the day of the week, along with the option to show/hide price data for every day of the timeframe.
 
 ![App main page screenshot](./app/static/screenshot1.png)
 
 ## ABOUT THE PROJECT
+
 This is a personal DevOps project. The primary goal is to learn and practice DevOps principles and tools. The secondary goal is to learn and practice cloud and security ops. Below is a loose draft of the progression path for this project.
 
 - [x] Make a simple app (Flask + JS)
 - [x] Containerize app (Docker)
 - [ ] Create very basic CI/CD process (Jenkins or Circle CI)
-- [ ] Add basic tests to CI process
+- [ ] Add basic tests to the CI
 - [ ] Implement public URL to the deployment
 - [ ] Use K8s
 - [ ] Use Vault
@@ -18,11 +20,17 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
 - [ ] Monitor app (Datadog)
 
 ## TO DO
+
 - clean up HTML/CSS/JS shenanigans
+- python handle overnight % for first day (prev. day close data)
 - update screenshot
-- create Jenkinsfile
+- add docker client to jenkins image and bind to host docker server
+    - follow https://medium.com/@manav503/how-to-build-docker-images-inside-a-jenkins-container-d59944102f30
+    - or https://tutorials.releaseworksacademy.com/learn/the-simple-way-to-run-docker-in-docker-for-ci
+    - make sure to backup current jenkins server directory
 
 ## CHANGELOG
+
 **v0.0.4** 11/28/2021
 - Changed directory architecture
 - Minor improvements
@@ -37,28 +45,19 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
 - Very rudimentary working version of "Historical" app
     - CSS needs optimizing
     - JS needs to fix a couple makeshift solutions, secondary table dates show hours (00:00:00 GMT)
-    - Python backend doesn't retrieve/provide a start price for the first day of a request
-
-## HELPER CMDS
-- docker build -t luk020/stocks-devops:latest .
-- docker run --rm -p 5000:5000 stocks-devops
-- docker push luk020/stocks-devops:latest
-- docker rmi $(docker images -f "dangling=true" -q)
+    - Python backend doesn't handle overnight % for the first day of a request (no prev day data)
 
 ## LINKS
+
 ### Making the app
+
 - https://github.com/luk020/stockmarket/tree/master/historical
 - https://github.com/luk020/cs50-finance
 - https://github.com/luk020/stocks-devops
 - https://pypi.org/project/yfinance/
-### Containerizing the app
-- https://runnable.com/docker/python/dockerize-your-flask-application
-- https://matduggan.com/are-dockerfiles-good-enough/
-- https://github.com/hadolint/hadolint
-- https://hub.docker.com/repository/docker/luk020/stocks-devops
-### Implementing CI/CD
-- https://github.com/jenkinsci/docker/blob/master/README.md
+
 ### Project link ideas
+
 - stocks-devops.lukenascimento.com
 - jenkins.lukenascimento.com
 - datadog.lukenascimento.com
