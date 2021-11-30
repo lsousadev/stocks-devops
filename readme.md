@@ -22,16 +22,16 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
 ## TO DO
 
 - clean up HTML/CSS/JS shenanigans
+- JS secondary table "date" column shows hours (00:00:00 GMT)
 - python handle overnight % for first day (prev. day close data)
 - update screenshot
 - add docker client to jenkins image and bind to host docker server
-    - follow https://medium.com/@manav503/how-to-build-docker-images-inside-a-jenkins-container-d59944102f30
-    - or https://tutorials.releaseworksacademy.com/learn/the-simple-way-to-run-docker-in-docker-for-ci
-    - make sure to backup current jenkins server directory
+    - follow https://devopscube.com/docker-containers-as-build-slaves-jenkins/
+        - tweak worker Dockerfile to needs, tag with luk020/jenkins-worker:latest
 
 ## CHANGELOG
 
-**v0.0.4** 11/28/2021
+**v0.0.4** *11/28/2021*
 - Changed directory architecture
 - Minor improvements
 
@@ -43,9 +43,6 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
 
 **v0.0.1**
 - Very rudimentary working version of "Historical" app
-    - CSS needs optimizing
-    - JS needs to fix a couple makeshift solutions, secondary table dates show hours (00:00:00 GMT)
-    - Python backend doesn't handle overnight % for the first day of a request (no prev day data)
 
 ## LINKS
 

@@ -17,7 +17,7 @@ RUN pip3 install -r requirements.txt
 RUN useradd -u 8888 devops
 USER devops
 
-COPY ./app .
+COPY ../app .
 
 EXPOSE 5000/tcp
 

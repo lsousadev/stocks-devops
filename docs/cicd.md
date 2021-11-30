@@ -23,3 +23,10 @@
         3. create username & password credentials on Jenkins with GH username & PAT (for job to pull repo + branches)
         4. Manage Jenkins > Configure System > GitHub > Add GitHub Server: add credentials from step 2, check "Manage Hooks"
         5. create multibranch pipeline using credentials from step 3 and change Discover Branches setting to "All Branches"
+- setting up build agent container on jenkins server's container's host machine (https://devopscube.com/docker-containers-as-build-slaves-jenkins/):   
+    - Configure a Docker Host With Remote API
+        - set up jenkins server container host machine's docker engine socket to receive requests from all ip's
+    - Create a Jenkins Agent Docker Image
+        - copied image from link above and tweaked a bit
+    - Configure Jenkins Server With Docker Plugin
+        - docker plugin already installed, just had to set up Docker Cloud details and Docker Agent templates (complicated, check link)

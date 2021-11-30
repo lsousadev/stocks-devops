@@ -15,9 +15,21 @@ pipeline {
         stage('build image') {
             steps {
                 sh '''
-                    echo "Nothing to see here. Not yet."
+                    cd ./app-image-build
+                    docker build -t luk020/stocks-devops:latest .
+                    docker push luk020/stocks-devops:latest
                 '''
             }
+        }
+    }
+    post {
+        always {
+            sh '''
+                uname -a
+                pwd
+                ls -lah
+                whoami
+            '''
         }
     }
 }
