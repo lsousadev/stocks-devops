@@ -3,7 +3,7 @@
 - initialized git on local stocks-devops directory with `git init`
 - linked local git with github using `git remote add origin <url>`
 - created basic jenkinsfile and develop branch (off of master)
-    - using `agent any` since using docker agent inside jenkins container requires extra research
+    - using `agent any` to run builds on master for proof of concept
 - ran containerized jenkins according to dockerhub image instructions
     - https://github.com/jenkinsci/docker/blob/master/README.md
     - `docker run -d -v jenkins_home:/var/jenkins_home -p 8080:8080 -p 50000:50000 jenkins/jenkins:lts-jdk11`
@@ -23,11 +23,35 @@
         3. create username & password credentials on Jenkins with GH username & PAT (for job to pull repo + branches)
         4. Manage Jenkins > Configure System > GitHub > Add GitHub Server: add credentials from step 2, check "Manage Hooks"
         5. create multibranch pipeline using credentials from step 3 and change Discover Branches setting to "All Branches"
-- setting up build agent container on jenkins server's container's host machine (https://devopscube.com/docker-containers-as-build-slaves-jenkins/):   
+- setting up build agent container on jenkins server's container's host machine (https://devopscube.com/docker-containers-as-build-slaves-jenkins/):
+    - Run Jenkins Server Container w/ Docker Binded to Host Machine
+        ```
+        docker run -d -p 8080:8080 -p 50000:50000 \
+        -v jenkins_home:/var/jenkins_home \
+        -v /var/run/docker.sock:/var/run/docker.sock \
+        -v $(which docker):/usr/bin/docker \
+        jenkins/jenkins:lts-jdk11
+        ```
     - Configure a Docker Host With Remote API
-        - set up jenkins server container host machine's docker engine socket to receive requests from all ip's
+        - install docker in host machine
+        - change permissions of docker.sock according to needs, eg. - `chmod 777 /run/docker.sock`
+        - change `ExecStart` line of host machine > /lib/systemd/system/docker.service to `ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock`
+        - reload services: `sudo systemctl daemon-reload && sudo service docker restart`
+        - test: `curl <host_machine_ip>:4243/version`
     - Create a Jenkins Agent Docker Image
-        - copied image from link above and tweaked a bit
+        - copy image from link above and tweaked a bit for project's needs, see stocks-devops/app-image-build/Dockerfile
+            - installs ssh server to receive ssh connections from jenkins server container through host machine docker engine
+            - creates user jenkins with password to be used by jenkins server on ssh connection
+            - installs dependencies (docker to build and push the app image)
+        - build image in host machine
     - Configure Jenkins Server With Docker Plugin
-        - docker plugin already installed, just had to set up Docker Cloud details and Docker Agent templates (complicated, check link)
-    - `chmod 777 /run/docker.sock` in host machine
+        - install docker-plugin
+        - find cloud configuration page
+        - fill out fields according to link above
+            - docker URI: tcp://<host_machine_ip>:4243
+            - test connection
+            - label and name of choice, eg. agent-with-docker
+            - docker image: agent image name built in previous step
+            - remote filing system root: home directory of user created in Dockerfile (jenkins)\
+            - credentials: add and use SSH username and password created in previous step
+    - Make sure Jenkinsfile is using `agent { docker { image 'luk020/jenkins-worker' } }`

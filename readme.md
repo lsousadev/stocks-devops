@@ -10,7 +10,7 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
 
 - [x] Make a simple app (Flask + JS)
 - [x] Containerize app (Docker)
-- [ ] Create very basic CI/CD process (Jenkins or Circle CI)
+- [x] Create very basic CI/CD process (Jenkins or Circle CI)
 - [ ] Add basic tests to the CI
 - [ ] Implement public URL to the deployment
 - [ ] Use K8s
@@ -18,16 +18,18 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
 - [ ] Deploy CI/CD via code (Terraform)
 - [ ] Make a more complex new app (BME sensor) and redo above steps
 - [ ] Monitor app (Datadog)
+- [ ] Apollo for docs
 
 ## TO DO
 
-- clean up HTML/CSS/JS shenanigans
-- JS secondary table "date" column shows hours (00:00:00 GMT)
-- python handle overnight % for first day (prev. day close data)
-- update screenshot
-- add docker client to jenkins image and bind to host docker server
-    - follow https://devopscube.com/docker-containers-as-build-slaves-jenkins/
-        - tweak worker Dockerfile to needs, tag with luk020/jenkins-worker:latest
+- HTML/CSS/JS: clean up shenanigans
+- JS: secondary table "date" column shows hours (00:00:00 GMT)
+- python: handle overnight % for first day (prev. day close data)
+- update app screenshot
+- change docs from past tense to present imperative (from log to instructions)
+- jenkinsfile: login on docker for docker push (Vault???), then update app version and start using feature branches
+- ngrok config file for auto 4 tunnels (jenkins, ???, etc) https://ngrok.com/docs (basic "Implement public URL")
+- try to create diagrams for docs
 
 ## CHANGELOG
 
@@ -57,4 +59,5 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
 
 - stocks-devops.lukenascimento.com
 - jenkins.lukenascimento.com
-- datadog.lukenascimento.com
+- monitoring.lukenascimento.com
+- apollo.lukenascimento.com

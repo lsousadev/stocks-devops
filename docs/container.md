@@ -1,7 +1,8 @@
 ## Containerization Steps
 
-- created requirements.txt using package
-    - ``
+- created requirements.txt using package pipreqs
+    - `pip3 install pipreqs`
+    - `python3 -m  pipreqs.pipreqs <target_app.py>`
 - added `if __name__ == '__main__': app.run(debug=True, host='0.0.0.0')` to app so ENTRYPOINT & CMD can be python & stocks-devops
 - created Dockerfile based on instructions, best practices, and linter recommendations linked below
 
