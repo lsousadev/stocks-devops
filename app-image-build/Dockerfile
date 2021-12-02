@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 # copying script after installing requirements to avoid breaking caching functionality
-COPY requirements.txt .
+COPY ./app-image-build/requirements.txt .
 
 RUN pip3 install -r requirements.txt
 
@@ -17,7 +17,7 @@ RUN pip3 install -r requirements.txt
 RUN useradd -u 8888 devops
 USER devops
 
-COPY ../app .
+COPY ./app .
 
 EXPOSE 5000/tcp
 
