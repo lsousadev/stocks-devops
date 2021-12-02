@@ -1,6 +1,6 @@
 pipeline {
-    //agent { docker { image 'python:3.5.1' } }
-    agent any
+    agent { docker { image 'luk020/stocks-devops:latest' } }
+    //agent any
     stages {
         stage('prepare') {
             steps {
