@@ -30,3 +30,4 @@
         - copied image from link above and tweaked a bit
     - Configure Jenkins Server With Docker Plugin
         - docker plugin already installed, just had to set up Docker Cloud details and Docker Agent templates (complicated, check link)
+    - `chmod 777 /run/docker.sock` in host machine
