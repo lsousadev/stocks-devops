@@ -26,7 +26,7 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
 - JS: secondary table "date" column shows hours (00:00:00 GMT)
 - python: handle overnight % for first day (prev. day close data)
 - update app screenshot
-- change docs from past tense to present imperative (from log to instructions)
+- change docs wording from past tense to present imperative (from log to instructions)
 - jenkinsfile: login on docker for docker push (Vault???), then update app version and start using feature branches
 - ngrok config file for auto 4 tunnels (jenkins, ???, etc) https://ngrok.com/docs (basic "Implement public URL")
 - try to create diagrams for docs
