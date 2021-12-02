@@ -1,5 +1,5 @@
 pipeline {
-    agent { docker { image 'luk020/stocks-devops:latest' } }
+    agent { docker { image 'luk020/jenkins-worker' } }
     //agent any
     stages {
         stage('prepare') {
