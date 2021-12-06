@@ -18,19 +18,20 @@ pipeline {
                 // context explanation: https://stackoverflow.com/questions/27068596/how-to-include-files-outside-of-dockers-build-context
                 withCredentials([
                     [$class: 'VaultTokenCredentialBinding', credentialsID: 'vault-root', vaultAddr: 'http://192.168.1.165:8200']
-                ])
-                sh '''
-                    echo $VAULT_ADDR
-                    echo $VAULT_TOKEN
+                ]){
+                    sh '''
+                        echo $VAULT_ADDR
+                        echo $VAULT_TOKEN
 
-                    export role_id=`curl --header "X-Vault-Token: $VAULT_TOKEN" $VAULT_ADDR/v1/auth/approle/role/jenkins/role-id | jq -r ".data"`
-                    export secret_id=`curl --header "X-Vault-Token: $VAULT_TOKEN" --request POST $VAULT_ADDR/v1/auth/approle/role/jenkins/secret-id | jq -r ".data"`
-                    results=`curl --header "X-Vault-Token: $VAULT_TOKEN" $VAULT_ADDR/v1/secret/data/mysql/webapp | jq -r ".data"`
-                    echo $results
+                        export role_id=`curl --header "X-Vault-Token: $VAULT_TOKEN" $VAULT_ADDR/v1/auth/approle/role/jenkins/role-id | jq -r ".data"`
+                        export secret_id=`curl --header "X-Vault-Token: $VAULT_TOKEN" --request POST $VAULT_ADDR/v1/auth/approle/role/jenkins/secret-id | jq -r ".data"`
+                        results=`curl --header "X-Vault-Token: $VAULT_TOKEN" $VAULT_ADDR/v1/secret/data/mysql/webapp | jq -r ".data"`
+                        echo $results
 
-                    docker build -t luk020/stocks-devops:latest -f ./app-image-build/Dockerfile .
-                    docker push luk020/stocks-devops:latest
-                '''
+                        docker build -t luk020/stocks-devops:latest -f ./app-image-build/Dockerfile .
+                        docker push luk020/stocks-devops:latest
+                    '''
+                }
             }
         }
     }
