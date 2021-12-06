@@ -20,9 +20,9 @@ pipeline {
                     [$class: 'VaultTokenCredentialBinding', credentialsId: 'vault-root', vaultAddr: 'http://192.168.1.165:8200']
                 ]){
                     sh '''
-                        curl --header "X-Vault-Token: $VAULT_TOKEN" $VAULT_ADDR/v1/auth/approle/role/jenkins/role-id
-                        export secret_id=`curl --header "X-Vault-Token: $VAULT_TOKEN" --request POST $VAULT_ADDR/v1/auth/approle/role/jenkins/secret-id | jq -r ".data"`
-                        results=`curl --header "X-Vault-Token: $VAULT_TOKEN" $VAULT_ADDR/v1/secret/data/mysql/webapp | jq -r ".data"`
+                        export role_id=`curl --header "X-Vault-Token: $VAULT_TOKEN" $VAULT_ADDR/v1/auth/approle/role/jenkins/role-id | jq -r ".data.role_id"`
+                        export secret_id=`curl --header "X-Vault-Token: $VAULT_TOKEN" --request POST $VAULT_ADDR/v1/auth/approle/role/jenkins/secret-id | jq -r ".data.secret_id"`
+                        results=`curl --header "X-Vault-Token: $VAULT_TOKEN" $VAULT_ADDR/v1/secret/docker"`
                         echo $results
 
                         docker build -t luk020/stocks-devops:latest -f ./app-image-build/Dockerfile .
