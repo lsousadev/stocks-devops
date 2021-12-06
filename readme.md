@@ -42,11 +42,14 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
 
 ## CHANGELOG
 
-**v0.0.5** *12/06/2021*
+**v0.1.0** *12/06/2021*
 - Finished a simple version of CI/CD (Jenkins Multibranch Pipeline)
     - Uses local Vault -dev server to store docker credentials
     - Builds app docker image
     - Pushes to docker hub
+- Vault server currently depends on ssh shell remaining open
+    - CICD doc shows instructions to start server in case it stops
+    - next step is containerizing Vault server and keep secrets on restart
 
 **v0.0.4** *11/28/2021*
 - Changed directory architecture
