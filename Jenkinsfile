@@ -22,8 +22,14 @@ pipeline {
                     sh '''
                         export role_id=`curl --header "X-Vault-Token: $VAULT_TOKEN" $VAULT_ADDR/v1/auth/approle/role/jenkins/role-id | jq -r ".data.role_id"`
                         export secret_id=`curl --header "X-Vault-Token: $VAULT_TOKEN" --request POST $VAULT_ADDR/v1/auth/approle/role/jenkins/secret-id | jq -r ".data.secret_id"`
-                        results=`curl --header "X-Vault-Request: true" --header "X-Vault-Token: $VAULT_TOKEN" $VAULT_ADDR/v1/secret/data/docker`
-                        echo $results
+                        results_docker=`curl --header "X-Vault-Request: true" --header "X-Vault-Token: $VAULT_TOKEN" $VAULT_ADDR/v1/secret/data/docker`
+                        
+                        for i in $(echo $results_docker | jq -r '.data.data|keys[]')
+                        do
+                            export $i=$(echo $results_docker | jq -r '.data.data.$i')
+                        done
+
+                        echo $login
 
                         docker build -t luk020/stocks-devops:latest -f ./app-image-build/Dockerfile .
                         docker push luk020/stocks-devops:latest
