@@ -26,7 +26,7 @@ pipeline {
                         
                         for i in $(echo $results_docker | jq -r '.data.data|keys[]')
                         do
-                            export $i=$(echo $results_docker | jq -r '.data.data.$i')
+                            export $i=$(echo $results_docker | jq -r .data.data.$i)
                         done
 
                         echo $login
