@@ -13,7 +13,7 @@
         1. download ngrok https://ngrok.com/download to host
         2. create ngrok free account in website
         3. added ngrok token with `ngrok authtoken <token>`
-        4. started a tunnel `ngrok http 8080`
+        4. started a tunnel `nohup ngrok http 8080 --log=stdout > ngrok.log &`
         5. copy paste ngrok url to Manage Jenkins > Configure System > Jenkins Location > Jenkins URL
             - Jenkins should automatically change the webhook url in GH repo to <ngrok url>/github-webhook/
         6. redo steps 4 and 5 every 8 hours (free tier session expire) or when needed
@@ -55,3 +55,37 @@
             - remote filing system root: home directory of user created in Dockerfile (jenkins)\
             - credentials: add and use SSH username and password created in previous step
     - Make sure Jenkinsfile is using `agent { docker { image 'luk020/jenkins-worker' } }`
+
+### Vault
+
+#### Local Server Setup
+
+vault server -dev -dev-listen-address="<ip>:8200"
+
+export VAULT_ADDR='<ip>:8200'
+export VAULT_TOKEN='<root_token>'
+
+vault policy write jenkins -<<EOF
+path "secret/docker" {
+  capabilities = [ "read", "list" ]
+}
+EOF
+
+vault auth enable approle
+
+vault write auth/approle/role/jenkins token_policies="jenkins" \
+    secret_id_ttl=10m \
+    token_num_uses=2 \
+    token_ttl=20m \
+    token_max_ttl=30m \
+    secret_id_num_uses=4
+
+vault kv put /secret/docker username="<username>" password="<password>"
+
+vault kv get -output-curl-string secret/docker
+
+#### Jenkins Setup
+
+- installed Vault plugin
+- added address of server
+- added root token as credential

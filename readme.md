@@ -42,6 +42,12 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
 
 ## CHANGELOG
 
+**v0.0.5** *12/06/2021*
+- Finished a simple version of CI/CD (Jenkins Multibranch Pipeline)
+    - Uses local Vault -dev server to store docker credentials
+    - Builds app docker image
+    - Pushes to docker hub
+
 **v0.0.4** *11/28/2021*
 - Changed directory architecture
 - Minor improvements
@@ -67,6 +73,4 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
 ### Project link ideas
 
 - stocks-devops.lukenascimento.com
-- jenkins.lukenascimento.com
-- monitoring.lukenascimento.com
 - apollo.lukenascimento.com
