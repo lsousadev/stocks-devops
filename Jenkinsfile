@@ -29,8 +29,7 @@ pipeline {
                             export $i=$(echo $results_docker | jq -r .data.data.$i)
                         done
 
-                        echo $login
-
+                        docker login -u $username -p $password
                         docker build -t luk020/stocks-devops:latest -f ./app-image-build/Dockerfile .
                         docker push luk020/stocks-devops:latest
                     '''

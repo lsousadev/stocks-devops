@@ -29,7 +29,10 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
     - if first day, end date = end date then continue
     - make sure rest of code isn't affected (there's a sum of days that should be affected)
 - change docs wording from past tense to present imperative (from log to instructions)
-- jenkinsfile: login on docker for docker push (Vault???), then update app version and start using feature branches
+- jenkinsfile: clean up vault usage
+    - using -dev vault server
+    - root credentials saved in jenkins server
+    - approle not being used, just tested
 - ngrok config file for auto 4 tunnels (jenkins, ???, etc) https://ngrok.com/docs (basic "Implement public URL")
 - try to create diagrams for docs
 - find a use for JFrog and implement
