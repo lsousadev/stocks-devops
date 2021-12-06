@@ -17,7 +17,7 @@ pipeline {
                 // the dot in docker build sets the "context" (pwd) of the builder environment to . for ref inside Dockerfile
                 // context explanation: https://stackoverflow.com/questions/27068596/how-to-include-files-outside-of-dockers-build-context
                 withCredentials([
-                    [$class: 'VaultTokenCredentialBinding', credentialsID: 'vault-root', vaultAddr: 'http://192.168.1.165:8200']
+                    [$class: 'VaultTokenCredentialBinding', credentialsId: 'vault-root', vaultAddr: 'http://192.168.1.165:8200']
                 ]){
                     sh '''
                         echo $VAULT_ADDR
