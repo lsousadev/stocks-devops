@@ -1,8 +1,8 @@
 ## ABOUT THE APP
 
-App to compare stock performance based on the day of the week for any timeframe. It offers four windows to choose a stock ticker, start date, and end date. Once you hit retrieve, it generates a table with performance data based on the day of the week, along with the option to show/hide price data for every day of the timeframe.
+Stocks-Devops compares stock performance based on the day of the week for any timeframe selected. You can select up to four combinations of stock ticker, start date, and end date to be shown in the same screen. Once you click "Retrieve", a table is generated with performance data based on the day of the week, along with the option to show/hide price data for every day of the timeframe.
 
-![App main page screenshot](./app/static/screenshot1.png)
+![App main page screenshot](./docs/images/screenshot1.png)
 
 ## ABOUT THE PROJECT
 
@@ -10,14 +10,14 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
 
 - [x] Make a simple app (Flask + JS)
 - [x] Containerize app (Docker)
-- [x] Create very basic CI/CD process (Jenkins or Circle CI)
-- [ ] Add basic tests to the CI
-- [ ] Implement public URL to the deployment
-- [ ] Use K8s
-- [ ] Use Vault
+- [x] Create very basic CI/CD process (Jenkins)
+- [x] Use secrets management (Vault)
+- [ ] Implement public URL to the deployment (ngrok + Route 53)
+- [ ] Add basic tests to the CI (Postman)
+- [ ] Use K8s to orchestrate containers (Jenkins server, Vault, app, etc)
 - [ ] Deploy CI/CD via code (Terraform)
 - [ ] Make a more complex new app (BME sensor) and redo above steps
-- [ ] Monitor app (Datadog)
+- [ ] Monitor app (Datadog or Grafana + Prometheus)
 - [ ] Apollo for docs
 
 ## TO DO
@@ -28,11 +28,12 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
     - start date = request start date - 1 day
     - if first day, end date = end date then continue
     - make sure rest of code isn't affected (there's a sum of days that should be affected)
-- change docs wording from past tense to present imperative (from log to instructions)
-- jenkinsfile: clean up vault usage
-    - using -dev vault server
-    - root credentials saved in jenkins server
-    - approle not being used, just tested
+- jenkins:
+    - docker not using ssh key to ssh into jenkins agent container
+    - clean up vault usage
+        - using -dev vault server
+        - root credentials saved in jenkins server
+        - approle not being used, just tested
 - ngrok config file for auto 4 tunnels (jenkins, ???, etc) https://ngrok.com/docs (basic "Implement public URL")
 - try to create diagrams for docs
 - find a use for JFrog and implement
@@ -41,6 +42,9 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
 - create an about page
 
 ## CHANGELOG
+
+**v0.1.1** *12/06/2021*
+- Improved docs and comments
 
 **v0.1.0** *12/06/2021*
 - Finished a simple version of CI/CD (Jenkins Multibranch Pipeline)

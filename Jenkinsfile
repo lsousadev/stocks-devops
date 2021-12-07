@@ -1,6 +1,5 @@
 pipeline {
     agent { docker { image 'luk020/jenkins-worker' } }
-    //agent any
     stages {
         stage('prepare') {
             steps {
@@ -14,11 +13,14 @@ pipeline {
         }
         stage('build image') {
             steps {
-                // the dot in docker build sets the "context" (pwd) of the builder environment to . for ref inside Dockerfile
-                // context explanation: https://stackoverflow.com/questions/27068596/how-to-include-files-outside-of-dockers-build-context
+                // Code syntax help: Project > Pipeline Syntax > Snippet Generator > withCredentials 
                 withCredentials([
                     [$class: 'VaultTokenCredentialBinding', credentialsId: 'vault-root', vaultAddr: 'http://192.168.1.165:8200']
                 ]){
+                // 1) "set -" unsets the -v and -x shell attributes, which print shell input lines as they are read & print trace of simple commands,
+                // respectively. Used below to hide secrets used in CLI. More info: https://gnu.org/software/bash/manual/html_node/The-Set_Builtin.html
+                // 2) The dot in the "docker build" line sets the "context" (pwd) of the builder environment to . for ref inside Dockerfile.
+                // More info on docker "context": https://stackoverflow.com/questions/27068596/how-to-include-files-outside-of-dockers-build-context
                     sh '''
                         set -
                         
