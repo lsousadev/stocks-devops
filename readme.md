@@ -34,7 +34,6 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
 - jenkins:
     - docker not using ssh key to ssh into jenkins agent container
     - clean up vault usage
-        - using -dev vault server
         - root credentials saved in jenkins server
         - approle not being used, just tested
 - try to create diagrams for docs

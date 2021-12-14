@@ -95,12 +95,12 @@ https://devopscube.com/docker-containers-as-build-slaves-jenkins/
     - `sudo chown -vR 100 /vault`
 - `vault operator init`:
     ```
-    Unseal Key 1: gr8mjp6mo7FiduDZ2YGHgbiCAh0IiN5QZK5uSpj84FQo
-    Unseal Key 2: /Y5656KvAfMh78sR3qsyCK+H5Mc05eaBdLuw7RxzcJ2C
-    Unseal Key 3: 5dAPzRONuc21mtXAywh/nOmV0RlY00S3ywco8KXJcmO7
-    Unseal Key 4: wNLKeer3v+OYTIB2vnQ4G0nLBdk88Q6x+AWTxmsHFmyk
-    Unseal Key 5: DOlBAhAiDOG0d7iPwnI2ZrIpmME2EIK669tu+2MwayE/
-    Initial Root Token: s.1TLYOZ5gv5KnJjIXx7IBlRKO
+    Unseal Key 1: ******
+    Unseal Key 2: ******
+    Unseal Key 3: ******
+    Unseal Key 4: ******
+    Unseal Key 5: ******
+    Initial Root Token: ******
     ``` 
 - `vault operator unseal <unseal-key>` (x3)
 - `vault login <root-token>`

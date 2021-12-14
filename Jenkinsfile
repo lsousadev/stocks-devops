@@ -26,7 +26,8 @@ pipeline {
                         
                         export role_id=`curl --header "X-Vault-Token: $VAULT_TOKEN" $VAULT_ADDR/v1/auth/approle/role/stocks-devops/role-id | jq -r ".data.role_id"`
                         export secret_id=`curl --header "X-Vault-Token: $VAULT_TOKEN" --request POST $VAULT_ADDR/v1/auth/approle/role/stocks-devops/secret-id | jq -r ".data.secret_id"`
-                        results_docker=`curl --header "X-Vault-Request: true" --header "X-Vault-Token: $VAULT_TOKEN" $VAULT_ADDR/v1/secret/data/docker`
+                        export token=`curl --request POST --data '{"role_id":"'"$role_id"'","secret_id":"'"$secret_id"'"}' $VAULT_ADDR/v1/auth/approle/login | jq -r ".auth.client_token"`
+                        results_docker=`curl --header "X-Vault-Request: true" --header "X-Vault-Token: $token" $VAULT_ADDR/v1/secret/data/docker`
                         
                         for i in $(echo $results_docker | jq -r '.data.data|keys[]')
                         do
