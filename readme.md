@@ -12,17 +12,20 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
 - [x] Containerize app (Docker)
 - [x] Create very basic CI/CD process (Jenkins)
 - [x] Use secrets management (Vault)
-- [ ] Implement public URL to the deployment (ngrok + Route 53)
-- [ ] Add basic tests to the CI (Postman)
-- [ ] Use K8s to orchestrate containers (Jenkins server, Vault, app, etc)
-- [ ] Deploy CI/CD via code (Terraform)
+- [ ] Implement public URL to the deployment (Cloudflare + letsencrypt.org)
+- [ ] Add basic tests to the CI (Insomnia.rest)
+- [ ] Create diagram for project docs ()
 - [ ] Make a more complex new app (BME sensor) and redo above steps
-- [ ] Monitor app (Datadog or Grafana + Prometheus)
+- [ ] Use K8s to orchestrate containers (Jenkins server, Vault, app, etc)
+- [ ] Deploy K8s via code (Terraform)
+- [ ] Monitor app (Grafana + Prometheus)
 - [ ] Apollo for docs
 
 ## TO DO
 
-- HTML/CSS/JS: clean up shenanigans
+- HTML/CSS/JS:
+    - clean up shenanigans
+    - create an about page
 - JS: secondary table "date" column shows hours (00:00:00 GMT)
 - python: handle overnight % for first day (prev. day close data)
     - start date = request start date - 1 day
@@ -34,12 +37,9 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
         - using -dev vault server
         - root credentials saved in jenkins server
         - approle not being used, just tested
-- ngrok config file for auto 4 tunnels (jenkins, ???, etc) https://ngrok.com/docs (basic "Implement public URL")
 - try to create diagrams for docs
 - find a use for JFrog and implement
 - dabble with OpenAPI
-- create Postman tests
-- create an about page
 
 ## CHANGELOG
 
