@@ -106,6 +106,7 @@ https://devopscube.com/docker-containers-as-build-slaves-jenkins/
 - `vault login <root-token>`
 - `vault secrets enable -path=secret kv`
 - `vault kv put /secret/docker username="<username>" password="<password>"`
+- `vault kv get -output-curl-string secret/docker`
 - enable approle auth method in server with `vault auth enable approle`
 - `vim /vault/policies/approle-stocks-devops`:
     ```
