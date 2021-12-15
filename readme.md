@@ -12,7 +12,7 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
 - [x] Containerize app (Docker)
 - [x] Create very basic CI/CD process (Jenkins)
 - [x] Use secrets management (Vault)
-- [ ] Implement public URL to the deployment (Cloudflare + letsencrypt.org)
+- [ ] Implement public URL to the deployment (Cloudflare + letsencrypt.org + nginx reverse proxy)
 - [ ] Add basic tests to the CI (Insomnia.rest)
 - [ ] Create diagram for project docs ()
 - [ ] Make a more complex new app (BME sensor) and redo above steps
@@ -33,8 +33,9 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
     - make sure rest of code isn't affected (there's a sum of days that should be affected)
 - CI/CD:
     - docker not using ssh key to ssh into jenkins agent container
+    - clean up docs
     - clean up vault usage
-        - root credentials saved in jenkins server
+        - jenkins approle unlimited uses and never expires
         - fix vault server container bind volume permissions (owner is user ID 100: "vault" in container, "systemd-network" in host machine)
 - try to create diagrams for docs
 - find a use for JFrog and implement
