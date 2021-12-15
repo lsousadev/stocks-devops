@@ -58,6 +58,7 @@ https://devopscube.com/docker-containers-as-build-slaves-jenkins/
     3. add ngrok token with `ngrok authtoken <token>` or as config file in ~/.ngrok2/ngrok.yml
     4. start a tunnel that delivers requests to host on port 8080: `nohup ngrok http 8080 --log=stdout > ngrok.log &`
     5. copy-paste ngrok url to Manage Jenkins > Configure System > Jenkins Location > Jenkins URL
+        - `curl http://127.0.0.1:4040/api/tunnels --silent | jq '.tunnels | .[] | .public_url'`
         - Jenkins should automatically change the webhook url in GH repo to <ngrok url>/github-webhook/ (double-check)
 - steps to make github and jenkins work together:
     1. create a personal access token (PAT) on GH with scopes: repo:*, admin:repo_hook, admin:org_hook
@@ -68,32 +69,91 @@ https://devopscube.com/docker-containers-as-build-slaves-jenkins/
 
 ### Vault Setup
 
-- set up local server:
-    - create dev server: `vault server -dev -dev-listen-address="<ip>:8200"`
-    - set Vault address and token: `export VAULT_ADDR='<ip>:8200' VAULT_TOKEN='<root_token>'`
-    - enable approle auth method in server with `vault auth enable approle`
-    - create `jenkins-approle-policy` policy for jenkins approle:
+- pull vault server docker image with `docker pull vault`
+- `mkdir -p /vault/config`
+- `vim /vault/config/local.json`
     ```
-    vault policy write jenkins-approle-policy -<<EOF
+    {
+        "listener": [{
+            "tcp": {
+                "address": "<ip>:8200",
+                "tls_disable" : 1
+            }
+        }],
+        "storage" :{
+            "file" : {
+                "path" : "/vault/data"
+            }
+        },
+        "max_lease_ttl": "10h",
+        "default_lease_ttl": "10h",
+        "ui": true
+    }
+    ```
+- `docker run -d -v /vault:/vault -p 8200:8200 --cap-add=IPC_LOCK vault server`
+- host machine's /vault owner needs to be changed to container's vault user (in my case user ID 100):
+    - `sudo chown -vR 100 /vault`
+- `vault operator init`:
+    ```
+    Unseal Key 1: ******
+    Unseal Key 2: ******
+    Unseal Key 3: ******
+    Unseal Key 4: ******
+    Unseal Key 5: ******
+    Initial Root Token: ******
+    ``` 
+- `vault operator unseal <unseal-key>` (x3)
+- `vault login <root-token>`
+- `vault secrets enable -path=secret kv`
+- `vault kv put /secret/docker username="<username>" password="<password>"`
+- `vault kv get -output-curl-string secret/docker`
+- enable approle auth method in server with `vault auth enable approle`
+- `vim /vault/policies/jenkins-policy.hcl`:
+    ```
     path "secret/docker" {
         capabilities = [ "read" ]
     }
-    EOF
     ```
-    - create `jenkins-approle-role` role:
+- `vault policy write jenkins-policy /vault/policies/jenkins-policy.hcl`
+- create approle role for jenkins server (not ideal settings, currently set to never expire, unlimited uses):
     ```
-    vault write auth/approle/role/jenkins token_policies="jenkins-approle-policy" \
+    vault write auth/approle/role/jenkins-role \
+        token_policies="jenkins-policy" \
+        token_num_uses=0 \
+        secret_id_num_uses=0
+    ```
+- get jenkins role role ID and secret ID:
+    - `vault read auth/approle/role/jenkins-role/role-id`
+    - `vault write -f auth/approle/role/jenkins-role/secret-id`
+- create jenkins approle credentials:
+    - Add Credentials > Vault App Role Credential > copy paste role ID and secret ID for jenkins role (named credential "vault-jenkins-role")
+- install "Hashicorp Vault" plugin in Jenkins server
+    - configure plugin with server address (http://<ip>:8200) and credentials created above ("vault-jenkins-role")
+- jenkins app role credentials set up in plugin config are used for getting Vault Username Password Credentials below
+- create docker authentication credentials:
+    - Add Credentials > Vault Username Password Credential > add path to secret ("secret/docker")
+    - username and password keys default to "username" and "password", which match Vault keys used
+
+### Jenkinsfile
+
+- check Jenkinsfile in source code (useful comments in code)
+
+
+DEPRECATED:
+- `vim /vault/policies/stocks-devops-policy.hcl`:
+    ```
+    path "secret/docker" {
+        capabilities = [ "read" ]
+    }
+    ```
+- `vault policy write stocks-devops-policy /vault/policies/stocks-devops-policy.hcl`
+- create approle role for pipeline:
+    ```
+    vault write auth/approle/role/stocks-devops-role \
+        token_policies="stocks-devops-policy" \
         secret_id_ttl=10m \
         token_num_uses=2 \
         token_ttl=20m \
         token_max_ttl=30m \
         secret_id_num_uses=4
     ```
-    - add docker username and password to Vault: `vault kv put /secret/docker username="<username>" password="<password>"`
-    - get code snippet to be used in Jenkinsfile: `vault kv get -output-curl-string secret/docker`
-- install Vault plugin in Jenkins server
-    - configure plugin with server address (http://<ip>:8200) and credentials (root token)
-
-### Jenkinsfile
-
-- check Jenkinsfile in source code (useful comments in code)

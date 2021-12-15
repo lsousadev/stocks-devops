@@ -12,36 +12,39 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
 - [x] Containerize app (Docker)
 - [x] Create very basic CI/CD process (Jenkins)
 - [x] Use secrets management (Vault)
-- [ ] Implement public URL to the deployment (ngrok + Route 53)
-- [ ] Add basic tests to the CI (Postman)
-- [ ] Use K8s to orchestrate containers (Jenkins server, Vault, app, etc)
-- [ ] Deploy CI/CD via code (Terraform)
+- [ ] Implement public URL to the deployment (Cloudflare + letsencrypt.org + nginx reverse proxy)
+- [ ] Add basic tests to the CI (Insomnia.rest)
+- [ ] Create diagram for project docs ()
 - [ ] Make a more complex new app (BME sensor) and redo above steps
-- [ ] Monitor app (Datadog or Grafana + Prometheus)
+- [ ] Use K8s to orchestrate containers (Jenkins server, Vault, app, etc)
+- [ ] Deploy K8s via code (Terraform)
+- [ ] Monitor app (Grafana + Prometheus)
 - [ ] Apollo for docs
 
 ## TO DO
 
-- HTML/CSS/JS: clean up shenanigans
+- HTML/CSS/JS:
+    - clean up shenanigans
+    - create an about page
 - JS: secondary table "date" column shows hours (00:00:00 GMT)
 - python: handle overnight % for first day (prev. day close data)
     - start date = request start date - 1 day
     - if first day, end date = end date then continue
     - make sure rest of code isn't affected (there's a sum of days that should be affected)
-- jenkins:
+- CI/CD:
     - docker not using ssh key to ssh into jenkins agent container
+    - clean up docs
     - clean up vault usage
-        - using -dev vault server
-        - root credentials saved in jenkins server
-        - approle not being used, just tested
-- ngrok config file for auto 4 tunnels (jenkins, ???, etc) https://ngrok.com/docs (basic "Implement public URL")
+        - jenkins approle unlimited uses and never expires
+        - fix vault server container bind volume permissions (owner is user ID 100: "vault" in container, "systemd-network" in host machine)
 - try to create diagrams for docs
 - find a use for JFrog and implement
 - dabble with OpenAPI
-- create Postman tests
-- create an about page
 
 ## CHANGELOG
+
+**v0.1.2** *12/14/2021*
+- Vault server running as container instead of directly on server
 
 **v0.1.1** *12/06/2021*
 - Improved docs and comments
