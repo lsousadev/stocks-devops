@@ -108,25 +108,52 @@ https://devopscube.com/docker-containers-as-build-slaves-jenkins/
 - `vault kv put /secret/docker username="<username>" password="<password>"`
 - `vault kv get -output-curl-string secret/docker`
 - enable approle auth method in server with `vault auth enable approle`
-- `vim /vault/policies/approle-stocks-devops`:
+- `vim /vault/policies/jenkins-policy.hcl`:
     ```
     path "secret/docker" {
         capabilities = [ "read" ]
     }
     ```
-- `vault policy write approle-stocks-devops /vault/policies/approle-stocks-devops`
-- create approle role:
+- `vault policy write jenkins-policy /vault/policies/jenkins-policy.hcl`
+- create approle role for jenkins server (not ideal settings, currently set to never expire, unlimited uses):
     ```
-    vault write auth/approle/role/stocks-devops token_policies="approle-stocks-devops" \
+    vault write auth/approle/role/jenkins-role \
+        token_policies="jenkins-policy" \
+        token_num_uses=0 \
+        secret_id_num_uses=0
+    ```
+- get jenkins role role ID and secret ID:
+    - `vault read auth/approle/role/jenkins-role/role-id`
+    - `vault write -f auth/approle/role/jenkins-role/secret-id`
+- create jenkins approle credentials:
+    - Add Credentials > Vault App Role Credential > copy paste role ID and secret ID for jenkins role (named credential "vault-jenkins-role")
+- install "Hashicorp Vault" plugin in Jenkins server
+    - configure plugin with server address (http://<ip>:8200) and credentials created above ("vault-jenkins-role")
+- jenkins app role credentials set up in plugin config are used for getting Vault Username Password Credentials below
+- create docker authentication credentials:
+    - Add Credentials > Vault Username Password Credential > add path to secret ("secret/docker")
+    - username and password keys default to "username" and "password", which match Vault keys used
+
+### Jenkinsfile
+
+- check Jenkinsfile in source code (useful comments in code)
+
+
+DEPRECATED:
+- `vim /vault/policies/stocks-devops-policy.hcl`:
+    ```
+    path "secret/docker" {
+        capabilities = [ "read" ]
+    }
+    ```
+- `vault policy write stocks-devops-policy /vault/policies/stocks-devops-policy.hcl`
+- create approle role for pipeline:
+    ```
+    vault write auth/approle/role/stocks-devops-role \
+        token_policies="stocks-devops-policy" \
         secret_id_ttl=10m \
         token_num_uses=2 \
         token_ttl=20m \
         token_max_ttl=30m \
         secret_id_num_uses=4
     ```
-- install Vault plugin in Jenkins server
-    - configure plugin with server address (http://<ip>:8200) and credentials (root token)
-
-### Jenkinsfile
-
-- check Jenkinsfile in source code (useful comments in code)

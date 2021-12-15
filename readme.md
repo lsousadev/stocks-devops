@@ -31,16 +31,19 @@ This is a personal DevOps project. The primary goal is to learn and practice Dev
     - start date = request start date - 1 day
     - if first day, end date = end date then continue
     - make sure rest of code isn't affected (there's a sum of days that should be affected)
-- jenkins:
+- CI/CD:
     - docker not using ssh key to ssh into jenkins agent container
     - clean up vault usage
         - root credentials saved in jenkins server
-        - approle not being used, just tested
+        - fix vault server container bind volume permissions (owner is user ID 100: "vault" in container, "systemd-network" in host machine)
 - try to create diagrams for docs
 - find a use for JFrog and implement
 - dabble with OpenAPI
 
 ## CHANGELOG
+
+**v0.1.2** *12/14/2021*
+- Vault server running as container instead of directly on server
 
 **v0.1.1** *12/06/2021*
 - Improved docs and comments
